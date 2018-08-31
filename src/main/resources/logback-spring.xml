@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <property name="LOG_FILE" value="/logs" />
+  <!-- <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} [%clr(%-20.20X{user}){faint}] %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+  <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%-20.20X{user}] ${LOG_LEVEL_PATTERN:-%5p} %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+   -->
+   <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n"/>
+  <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n"/>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+  
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+          <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+          <charset>utf8</charset>
+      </encoder>
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <encoder>
+          <pattern>${FILE_LOG_PATTERN}</pattern>
+      </encoder>
+      <file>${LOG_FILE}.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+          <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+      </rollingPolicy>
+  </appender>
+  
+   <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>/logs/info.app.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <FileNamePattern>/logs/info.app.%d{yyyy-MM-dd}</FileNamePattern>
+        <maxHistory>90</maxHistory>
+    </rollingPolicy>
+    <encoder>
+        <charset>UTF-8</charset>
+        <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+	</appender> 
+  
+  <root level="INFO">
+      <appender-ref ref="CONSOLE" />
+      <appender-ref ref="fileInfoLog" />
+  </root>
+  
+  <logger name="ssh" level="debug"/>
+
+</configuration>
